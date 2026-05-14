@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nexus | Explorar Eventos</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .badge-mine { background: #4e73df; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; }
+        .badge-other { background: #e74a3b; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; }
+        .event-meta { font-size: 0.85rem; color: #666; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside th:replace="~{auth/dashboard :: aside}"></aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="search-box">
+                <form th:action="@{/eventos/explorar}" method="get">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="buscar" placeholder="Buscar eventos globales..." th:value="${param.buscar}">
+                </form>
+            </div>
+        </header>
+
+        <section class="content-wrapper">
+            <div class="section-header">
+                <h2>Explorar Eventos</h2>
+                <p>Descubre lo que está pasando en la comunidad Nexus.</p>
+            </div>
+
+            <div class="cards-grid">
+                <article th:each="e : ${eventos}" class="nexus-card">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span class="category-tag" th:text="${e.categoria}">Categoría</span>
+                            <span th:if="${e.usuario.id_usuario == usuario.id_usuario}" class="badge-mine">Mi Evento</span>
+                        </div>
+
+                        <h3 th:text="${e.titulo}">Título del Evento</h3>
+                        <p th:text="${e.descripcion}" style="font-size: 0.9rem; color: #555;"></p>
+
+                        <div style="margin-top: 15px;">
+                            <div class="event-meta"><i class="fas fa-map-marker-alt"></i> <span th:text="${e.ubicacion}"></span></div>
+                            <div class="event-meta"><i class="fas fa-calendar-alt"></i>
+                                <span th:text="${#temporals.format(e.f_inicio, 'dd/MM/yyyy')}"></span>
+                            </div>
+                            <div class="event-meta"><i class="fas fa-user-tie"></i> Organizado por: <strong th:text="${e.usuario.nombres}"></strong></div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div th:if="${e.usuario.username == #authentication.name}">
+                            <a th:href="@{/eventos/editar/{id}(id=${e.id_evento})}" class="btn-edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a th:href="@{/eventos/eliminar/{id}(id=${e.id_evento})}"
+                               class="btn-delete"
+                               onclick="return confirm('¿Estás seguro de eliminar este evento?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+
+                        <div th:if="${e.usuario.username != #authentication.name}">
+                            <button class="btn-register">Ver detalles / Inscribirme</button>
+                        </div>
+                    </div>
+                </article>
+
+                <div th:if="${#lists.isEmpty(eventos)}" style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                    <i class="fas fa-search" style="font-size: 3rem; color: #ccc;"></i>
+                    <p>No se encontraron eventos para mostrar.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nexus | Mi Perfil</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside th:replace="~{auth/dashboard :: aside}"></aside>
+
+    <main class="main-content">
+        <section class="content-wrapper">
+            <div class="section-header">
+                <h2>Configuración de Perfil</h2>
+                <p>Gestiona tu información personal y seguridad.</p>
+            </div>
+
+            <div th:if="${param.exito}" style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i> ¡Perfil actualizado correctamente!
+            </div>
+
+            <div class="nexus-card" style="max-width: 600px; margin: 0 auto; padding: 30px;">
+                <form th:action="@{/perfil/actualizar}" method="post">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div class="avatar-circle" style="width: 80px; height: 80px; font-size: 2rem; margin: 0 auto 10px;"
+                             th:text="${usuario.nombres.substring(0,1)}">U</div>
+                        <h3 th:text="${usuario.username}">Username</h3>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Nombres</label>
+                            <input type="text" name="nombres" th:value="${usuario.nombres}" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos</label>
+                            <input type="text" name="apellidos" th:value="${usuario.apellidos}" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Correo Electrónico</label>
+                        <input type="email" name="email" th:value="${usuario.email}" required
+                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+
+                    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+                    <div class="form-group">
+                        <label>Cambiar Contraseña (dejar en blanco para no cambiar)</label>
+                        <input type="password" name="nuevaPassword" placeholder="Nueva contraseña"
+                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+
+                    <button type="submit" class="btn-create" style="width: 100%; margin-top: 30px;">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

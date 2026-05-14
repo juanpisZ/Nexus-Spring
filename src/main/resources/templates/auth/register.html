@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro - NEXUS</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/regiter.css}" />
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <header id="header">
+        <h1>Crea tu Cuenta</h1>
+        <p>Únete a la comunidad más grande de mentes brillantes</p>
+    </header>
+
+    <div id="main">
+        <section class="main">
+            <form method="post" th:action="@{/auth/register}" th:object="${usuario}">
+                <div class="row gtr-uniform">
+                    <div class="col-6 col-12-xsmall">
+                        <input type="text" th:field="*{nombres}" placeholder="Nombres" />
+                        <p th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}" style="color: #e37682; font-size: 0.8rem;"></p>
+                    </div>
+
+                    <div class="col-6 col-12-xsmall">
+                        <input type="text" th:field="*{apellidos}" placeholder="Apellidos" />
+                    </div>
+
+                    <div class="col-12">
+                        <input type="email" th:field="*{email}" placeholder="Correo Electrónico" />
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: #e37682; font-size: 0.8rem;"></p>
+                    </div>
+
+                    <div class="col-12">
+                        <input type="text" th:field="*{username}" placeholder="Nombre de Usuario" />
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: #e37682; font-size: 0.8rem;"></p>
+                    </div>
+
+                    <div class="col-6 col-12-xsmall">
+                        <div style="position: relative;">
+                            <input type="password" th:field="*{password}" id="password" placeholder="Contraseña" />
+                            <span id="btnPassword" class="icon solid fa-eye"
+                                  style="position: absolute; right: 15px; top: 15px; cursor: pointer; color: rgba(255,255,255,0.5);"></span>
+                        </div>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: #e37682; font-size: 0.8rem;"></p>
+                    </div>
+
+                    <div class="col-6 col-12-xsmall">
+                        <div style="position: relative;">
+                            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="Confirmar Contraseña" />
+                            <span id="btnConfirm" class="icon solid fa-eye"
+                                  style="position: absolute; right: 15px; top: 15px; cursor: pointer; color: rgba(255,255,255,0.5);"></span>
+                        </div>
+                        <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" style="color: #e37682; font-size: 0.8rem;"></p>
+                    </div>
+
+                    <div class="col-12">
+                        <ul class="actions special">
+                            <li><input type="submit" value="Completar Registro" class="primary" /></li>
+                            <li><a th:href="@{/}" class="button">Cancelar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<div th:if="${error}" style="color: #e37682; background: rgba(227, 118, 130, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+    <p th:text="${error}"></p>
+</div>
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/js/register.js}"></script>
+</body>
+</html>

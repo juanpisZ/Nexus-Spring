@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${foro.titulo}"></title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <aside th:replace="~{auth/dashboard :: aside}"></aside>
+
+    <main class="main-content">
+        <section class="content-wrapper">
+            <a href="/foros" class="btn-create-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+
+            <div class="nexus-card" style="margin-top: 20px; padding: 30px;">
+                <h1 th:text="${foro.titulo}"></h1>
+                <p th:text="${foro.descripcion}"></p>
+                <small>Publicado por: <strong th:text="${foro.usuario.nombres}"></strong></small>
+            </div>
+
+            <hr style="margin: 40px 0;">
+
+            <h3>Comentarios</h3>
+
+            <form th:action="@{/foros/comentar/{id}(id=${foro.id_foro})}" method="post" style="margin-bottom: 30px;">
+                <textarea name="contenido" placeholder="Escribe un comentario..." required
+                          style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd;"></textarea>
+                <button type="submit" class="btn-create" style="margin-top: 10px;">Publicar Comentario</button>
+            </form>
+
+            <div class="comentarios-lista">
+                <div th:each="c : ${comentarios}" class="nexus-card" style="margin-bottom: 15px; padding: 15px; background: #f9f9f9;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong th:text="${c.usuario.nombres + ' ' + c.usuario.apellidos}"></strong>
+                        <span th:text="${#temporals.format(c.fecha, 'dd/MM HH:mm')}"></span>
+                    </div>
+                    <p th:text="${c.contenido}" style="margin-top: 10px;"></p>
+                </div>
+
+                <p th:if="${#lists.isEmpty(comentarios)}" style="text-align: center; color: #888;">
+                    Nadie ha comentado todavía. ¡Sé el primero!
+                </p>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>s

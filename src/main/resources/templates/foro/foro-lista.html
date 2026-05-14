@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Mis Foros</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside th:replace="~{auth/dashboard :: aside}"></aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="search-box">
+                <form th:action="@{/foros}" method="get">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="buscar" placeholder="Buscar en mis foros..." th:value="${param.buscar}">
+                </form>
+            </div>
+
+            <div class="top-actions">
+                <a href="/foros/crear" class="btn-create"><i class="fas fa-plus"></i> Crear Foro</a>
+
+                <div class="user-menu">
+                    <div class="user-profile" onclick="toggleDropdown()">
+                        <div class="avatar-circle" th:text="${usuario.nombres.substring(0,1)}">U</div>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
+                    <div id="userDropdown" class="dropdown-content">
+                        <div class="dropdown-header">
+                            <strong th:text="${usuario.nombres + ' ' + usuario.apellidos}">Nombre</strong>
+                            <span th:text="${usuario.email}">email@nexus.com</span>
+                        </div>
+                        <hr>
+                        <a th:href="@{/logout}" class="logout-item"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="content-wrapper">
+            <div class="section-header">
+                <h2>Mis Foros Comunitarios</h2>
+                <p>Gestiona los temas de discusión que has iniciado.</p>
+            </div>
+
+            <div class="cards-grid">
+                <article th:each="f : ${misForos}" class="nexus-card">
+                    <div class="card-body">
+                        <span class="category-tag">Comunidad</span>
+                        <h3 th:text="${f.titulo}">Título del Foro</h3>
+                        <p th:text="${f.descripcion}">Descripción...</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <span class="date">
+                            <i class="far fa-clock"></i>
+                            <span th:if="${f.fechaCreacion != null}"
+                                  th:text="${#temporals.format(f.fechaCreacion, 'dd/MM/yyyy')}"></span>
+                            <span th:if="${f.fechaCreacion == null}">Reciente</span>
+                        </span>
+
+                        <div class="actions" style="display: flex; gap: 10px; align-items: center;">
+                            <a th:href="@{/foros/ver/{id}(id=${f.id_foro})}" class="edit-btn" title="Ver comentarios">
+                                <i class="fas fa-comments"></i> Ver
+                            </a>
+
+                            <form th:if="${f.usuario.username == usuario.username}"
+                                  th:action="@{/foros/eliminar/{id}(id=${f.id_foro})}"
+                                  method="post" style="display: inline; margin: 0;">
+                                <button type="submit" class="delete-btn"
+                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este foro y todos sus comentarios?')"
+                                        style="border: none; cursor: pointer; background: none; color: #ff4d4d; padding: 5px;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+
+                <div th:if="${#lists.isEmpty(misForos)}" style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                    <i class="fas fa-comments" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <p>No tienes foros creados.</p>
+                    <a href="/foros/crear" class="btn-create" style="display: inline-block; margin-top: 1rem;">Crear mi primer foro</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    function toggleDropdown() {
+        document.getElementById("userDropdown").classList.toggle("show");
+    }
+</script>
+</body>
+</html>

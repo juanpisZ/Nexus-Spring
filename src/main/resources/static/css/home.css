@@ -1,0 +1,174 @@
+/* ==========================
+   RESET BÁSICO
+========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================
+   CONTENEDOR PRINCIPAL
+========================== */
+.main {
+    width: 100%;
+    min-height: 100vh;
+
+    /* Fondo con overlay oscuro */
+    background-image:
+            linear-gradient(
+                    rgba(0, 0, 0, 0.65),
+                    rgba(0, 0, 0, 0.65)
+            ),
+            url('/img/home.png');
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+.navbar {
+    width: 100%;
+    height: 80px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 80px;
+
+    /* Fondo semitransparente */
+    background: rgba(0, 0, 0, 0.25);
+
+    /* Efecto glassmorphism */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* Línea inferior sutil */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================
+   LOGO
+========================== */
+.logo {
+    font-size: 48px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+
+    /* Sombra para mejor contraste */
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Resaltar una parte del logo opcional */
+.logo span {
+    color: #4f7cff;
+}
+
+/* ==========================
+   CONTENIDO PRINCIPAL
+========================== */
+.content {
+    max-width: 700px;
+    padding: 120px 80px;
+}
+
+.content h1 {
+    font-size: 64px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 24px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.content p {
+    font-size: 20px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+}
+
+/* ==========================
+   BOTÓN PRINCIPAL
+========================== */
+.btn {
+    display: inline-block;
+    padding: 15px 36px;
+    background: #4f7cff;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(79, 124, 255, 0.35);
+}
+
+.btn:hover {
+    background: #3a63e8;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(79, 124, 255, 0.45);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 30px;
+    }
+
+    .logo {
+        font-size: 36px;
+    }
+
+    .content {
+        padding: 80px 30px;
+    }
+
+    .content h1 {
+        font-size: 42px;
+    }
+
+    .content p {
+        font-size: 18px;
+    }
+}
+
+.menu{
+    width: 400px;
+    float: left;
+    height:70px ;
+}
+
+ul{
+    float:  left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul li{
+    list-style: none;
+    margin-left: 62px;
+    margin-top: 27px;
+    font-size: 14px;
+}
+
+ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-family: Arial;
+    font-weight: bold;
+    transition:  0.4s ease-in-out;
+}
+ul li a:hover{
+    color: #0101c4;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus - Registrar Evento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/CrearEvento.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="main-container">
+    <div class="form-wrapper">
+        <a th:href="@{/dashboard}" style="text-decoration: none; color: #666; font-size: 0.9rem;">
+            <i class="fas fa-arrow-left"></i> Volver al Panel
+        </a>
+
+        <div class="logo-area" style="text-align: center; margin-top: 10px;">
+            <h1 style="color: #4e73df; letter-spacing: 2px;">NEXUS</h1>
+        </div>
+
+        <div class="form-header">
+            <h2 class="form-title" th:text="${evento.id_evento != null ? 'Editar Evento' : 'Crear Nuevo Evento'}">Crear Nuevo Evento</h2>
+            <p class="form-description">Completa los detalles para publicar tu evento en Nexus.</p>
+        </div>
+
+        <form th:action="@{/eventos/guardar}" th:object="${evento}" method="POST">
+
+            <input type="hidden" th:field="*{id_evento}" />
+
+            <div class="form-group">
+                <label class="form-label">Título del Evento</label>
+                <input type="text" th:field="*{titulo}" class="form-input" required placeholder="Ej: Conferencia Tech">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <textarea th:field="*{descripcion}" rows="2" class="form-textarea" placeholder="Breve descripción..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Ubicación</label>
+                <input type="text" th:field="*{ubicacion}" class="form-input" placeholder="Lugar físico o enlace virtual">
+            </div>
+
+            <div class="form-row" style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label">Fecha Inicio</label>
+                    <input type="date" th:field="*{f_inicio}" id="f_inicio" class="form-input" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label">Fecha Fin</label>
+                    <input type="date" th:field="*{f_fin}" id="f_fin" class="form-input" required>
+                </div>
+            </div>
+
+            <div class="form-row" style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label">Categoría</label>
+                    <input type="text" th:field="*{categoria}" class="form-input" required placeholder="Ej: Tecnología">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label">Límite Pers.</label>
+                    <input type="number" th:field="*{limite_participantes}" class="form-input" min="1" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" style="width: 100%; cursor: pointer;">
+                <i th:class="${evento.id_evento != null ? 'fas fa-save' : 'fas fa-rocket'}"></i>
+                <span th:text="${evento.id_evento != null ? ' Guardar Cambios' : ' Publicar Evento'}"> Publicar Evento</span>
+            </button>
+        </form>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const hoy = new Date().toISOString().split('T')[0];
+                const inputInicio = document.getElementById('f_inicio');
+                const inputFin = document.getElementById('f_fin');
+
+                // Solo aplicamos el mínimo "hoy" si es un evento nuevo
+                // Si es edición, permitimos que se vea la fecha original aunque sea hoy
+                if (!document.querySelector('input[name="id_evento"]').value) {
+                    inputInicio.setAttribute('min', hoy);
+                    inputFin.setAttribute('min', hoy);
+                }
+
+                inputInicio.addEventListener('change', () => {
+                    inputFin.setAttribute('min', inputInicio.value);
+                });
+            });
+        </script>
+    </div>
+</div>
+</body>
+</html>

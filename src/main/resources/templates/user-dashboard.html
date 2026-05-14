@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --nexus-purple: #7d2ae8;
+            --bg-light: #f8f9fc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+        }
+
+        .navbar-nexus {
+            background: var(--white);
+            border-bottom: 1px solid #eef0f7;
+            padding: 15px 30px;
+        }
+
+        .nexus-panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eef0f7;
+            margin-bottom: 30px;
+        }
+
+        .btn-nexus {
+            background-color: var(--nexus-purple);
+            color: white;
+            border-radius: 8px;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-nexus:hover {
+            background-color: #6320ba;
+            color: white;
+        }
+
+        .section-title {
+            border-left: 5px solid var(--nexus-purple);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-nexus">
+        <div class="container-fluid">
+            <span class="navbar-brand fw-bold" style="color: var(--nexus-purple);">NEXUS</span>
+            <div class="d-flex align-items-center gap-3">
+                <span th:text="'Hola, ' + ${usuario.nombres}">Usuario</span>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Salir</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-6">
+                <h2 class="fw-bold">Panel de Control</h2>
+                <p class="text-muted">Gestiona tus actividades dentro de la plataforma.</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <form th:action="@{/dashboard}" method="get" class="d-flex gap-2 justify-content-end">
+                    <input type="text" name="buscar" class="form-control" placeholder="Buscar por título..." th:value="${param.buscar}" style="max-width: 250px;">
+                    <button type="submit" class="btn btn-nexus">Buscar</button>
+                    <a th:href="@{/dashboard}" class="btn btn-light border" th:if="${param.buscar}">Limpiar</a>
+                </form>
+            </div>
+        </div>
+
+        <h4 class="section-title">Mis Eventos</h4>
+        <div class="nexus-panel">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Evento</th>
+                            <th>Ubicación</th>
+                            <th>Fecha</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ev : ${misEventos}">
+                            <td>
+                                <div class="fw-bold" th:text="${ev.titulo}"></div>
+                                <small class="text-muted" th:text="${ev.categoria}"></small>
+                            </td>
+                            <td th:text="${ev.ubicacion}"></td>
+                            <td th:text="${ev.fechaInicio != null ? #temporals.format(ev.fechaInicio, 'dd/MM/yyyy HH:mm') : 'Sin fecha'}"></td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a th:href="@{/dashboard/evento/editar/{id}(id=${ev.id_evento})}" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form th:action="@{/dashboard/evento/eliminar/{id}(id=${ev.id_evento})}" method="post" onsubmit="return confirm('¿Eliminar evento?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(misEventos)}">
+                            <td colspan="4" class="text-center py-4 text-muted">No se encontraron eventos.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h4 class="section-title">Mis Foros y Discusiones</h4>
+        <div class="nexus-panel">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Título del Foro</th>
+                            <th>Fecha de Creación</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="foro : ${misForos}">
+                            <td>
+                                <div class="fw-bold" th:text="${foro.titulo}"></div>
+                                <small class="text-muted" th:text="${#strings.abbreviate(foro.contenido, 50)}"></small>
+                            </td>
+                            <td th:text="${foro.createdAt != null ? #dates.format(foro.createdAt, 'dd/MM/yyyy') : 'N/A'}"></td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a th:href="@{/dashboard/foro/editar/{id}(id=${foro.id_foro})}" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form th:action="@{/dashboard/foro/eliminar/{id}(id=${foro.id_foro})}" method="post" onsubmit="return confirm('¿Eliminar este foro?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(misForos)}">
+                            <td colspan="3" class="text-center py-4 text-muted">No se encontraron foros creados.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

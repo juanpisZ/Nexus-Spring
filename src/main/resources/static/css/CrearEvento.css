@@ -1,0 +1,141 @@
+/* --- Estilos de Base --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #a860a8 0%, #5050a8 100%);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.main-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* --- Tarjeta Blanca (Ajustada al 100%) --- */
+.form-wrapper {
+    background: #ffffff !important; /* Blanco puro para que el logo no choque */
+    width: 100%;
+    max-width: 520px;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    box-sizing: border-box; /* Mantiene todo adentro */
+}
+
+/* --- Limpieza y Animación del Logo --- */
+.logo-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.nexus-logo-final {
+    max-width: 160px;
+    height: auto;
+    /* Fusión mágica: quita el fondo gris/cuadrícula de la imagen original */
+    mix-blend-mode: multiply;
+    filter: contrast(110%);
+    transition: transform 0.4s ease;
+}
+
+.nexus-logo-final:hover {
+    transform: scale(1.1); /* Se agranda el logo al pasar el mouse */
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-title {
+    color: #111827;
+    font-size: 24px;
+    margin: 0 0 8px;
+}
+
+.form-description {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* --- Inputs y Animaciones de Foco --- */
+.form-group {
+    margin-bottom: 18px;
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 13px;
+}
+
+.form-input, .form-textarea {
+    width: 100% !important;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    box-sizing: border-box; /* Evita que el padding rompa la tarjeta */
+    font-size: 15px;
+    color: #000 !important; /* Letra negra */
+    background: #fff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* EFECTO HOVER: Los campos suben un poco */
+.form-input:hover, .form-textarea:hover {
+    border-color: #a860a8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(168, 96, 168, 0.1);
+}
+
+/* EFECTO FOCUS: Se agrandan cuando haces clic */
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #5050a8;
+    transform: scale(1.03); /* Aquí es donde se agranda el campo */
+    box-shadow: 0 0 0 4px rgba(80, 80, 168, 0.2);
+}
+
+/* Filas dobles */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.half {
+    flex: 1;
+}
+
+/* Botón Final */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background: #4338ca;
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 480px) {
+    .form-row { flex-direction: column; gap: 0; }
+}

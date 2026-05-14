@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>NEXUS - Conecta tu Comunidad</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <noscript><link rel="stylesheet" th:href="@{/assets/css/noscript.css}" /></noscript>
+    <style>
+        /* Mantenemos tu logo perfecto */
+        header .nexus-logo img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 0;
+            background: transparent;
+        }
+        header .nexus-logo {
+            background: transparent !important;
+            border: none !important;
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+<div id="wrapper">
+
+    <header id="header" class="alt">
+        <div class="nexus-logo logo">
+            <img th:src="@{/img/Nexus_logo.png}" alt="Logo Nexus" />
+        </div>
+        <h1>NEXUS</h1>
+        <p>El punto de encuentro para mentes brillantes.<br />
+            Organiza eventos, comparte ideas y haz crecer tu red.</p>
+    </header>
+
+    <nav id="nav">
+        <ul>
+            <li><a href="#intro" class="active">Inicio</a></li>
+            <li><a href="#first">Eventos</a></li>
+            <li><a href="#second">Comunidad</a></li>
+
+            <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/auth/login}">Iniciar Sesión</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}" style="color: #e37682; font-weight: bold;">Panel Admin</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}">Cerrar Sesión</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="main">
+
+        <section id="intro" class="main">
+            <div class="spotlight">
+                <div class="content">
+                    <header class="major">
+                        <h2>Conecta, Colabora, Crea</h2>
+                    </header>
+                    <p>Bienvenido a Nexus,
+                        <span sec:authorize="isAuthenticated()"><strong><span sec:authentication="name"></span></strong></span>.
+                        Tu espacio para fortalecer los lazos de la comunidad. Diseñado para que tu voz sea escuchada.</p>
+                    <ul class="actions" sec:authorize="!isAuthenticated()">
+                        <li><a th:href="@{/auth/register}" class="button">Crear una cuenta</a></li>
+                    </ul>
+                </div>
+                <span class="image"><img th:src="@{/img/cumuniry.jpg}" alt="Comunidad Nexus" /></span>
+            </div>
+        </section>
+
+        <section id="first" class="main special">
+            <header class="major">
+                <h2>Eventos y Talleres</h2>
+            </header>
+            <ul class="features">
+                <li>
+                    <span class="icon solid major style1 fa-calendar-alt"></span>
+                    <h3>Descubre</h3>
+                    <p>Encuentra conferencias, meetups y talleres que se ajusten a tus intereses profesionales.</p>
+                </li>
+                <li>
+                    <span class="icon solid major style3 fa-microphone"></span>
+                    <h3>Organiza</h3>
+                    <p>¿Tienes algo que enseñar? Crea tu propio evento y llega a cientos de personas.</p>
+                </li>
+                <li>
+                    <span class="icon solid major style5 fa-bell"></span>
+                    <h3>Notificaciones</h3>
+                    <p>Mantente al tanto de las últimas novedades de tu red local y global.</p>
+                </li>
+            </ul>
+            <footer class="major">
+                <ul class="actions special">
+                    <li><a href="#" class="button">Ver todos los eventos</a></li>
+                </ul>
+            </footer>
+        </section>
+
+        <section id="second" class="main special">
+            <header class="major">
+                <h2>Nuestro Impacto</h2>
+                <p>Nuestra comunidad crece cada día. Mira lo que hemos logrado juntos en Nexus.</p>
+            </header>
+            <ul class="statistics">
+                <li class="style1">
+                    <span class="icon solid fa-user-friends"></span>
+                    <strong>+500</strong> Usuarios
+                </li>
+                <li class="style2">
+                    <span class="icon solid fa-comments"></span>
+                    <strong>1,200</strong> Posts
+                </li>
+                <li class="style3">
+                    <span class="icon solid fa-calendar-check"></span>
+                    <strong>85</strong> Eventos
+                </li>
+            </ul>
+            <p class="content">El <strong>Foro de Nexus</strong> es el corazón de la plataforma. Un lugar donde la jerarquía desaparece y el conocimiento fluye libremente entre expertos y aprendices.</p>
+        </section>
+
+        <section id="cta" class="main special">
+            <header class="major">
+                <h2>¿Listo para empezar?</h2>
+                <p>Regístrate hoy mismo y empieza a conectar con personas que comparten tus mismas pasiones.</p>
+            </header>
+            <footer class="major">
+                <ul class="actions special" sec:authorize="!isAuthenticated()">
+                    <li><a th:href="@{/auth/register}" class="button primary">Comenzar ahora</a></li>
+                    <li><a th:href="@{/auth/login}" class="button">Iniciar Sesión</a></li>
+                </ul>
+                <ul class="actions special" sec:authorize="isAuthenticated()">
+                    <li><a href="#first" class="button primary">Explorar la plataforma</a></li>
+                </ul>
+            </footer>
+        </section>
+
+    </div>
+
+    <footer id="footer">
+        <section>
+            <h2>Sobre el Proyecto</h2>
+            <p>Nexus nació como una iniciativa para centralizar la información comunitaria y facilitar el acceso a la educación y el networking de calidad.</p>
+        </section>
+        <section>
+            <h2>Contacto</h2>
+            <dl class="alt">
+                <dt>Ubicación</dt>
+                <dd>Sede Central Nexus &bull; Bogotá, Colombia</dd>
+                <dt>Email</dt>
+                <dd><a href="mailto:soporte@nexus.com">soporte@nexus.com</a></dd>
+            </dl>
+        </section>
+        <p class="copyright">&copy; 2026 NEXUS. Usuario: <span sec:authentication="name">Invitado</span>.</p>
+    </footer>
+
+</div>
+
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery.scrollex.min.js}"></script>
+<script th:src="@{/assets/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/assets/js/browser.min.js}"></script>
+<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+</html>

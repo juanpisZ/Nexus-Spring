@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login - NEXUS</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/registro.css}" />
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <header id="header">
+        <h1>Iniciar Sesión</h1>
+        <p>Accede a la red de Nexus</p>
+    </header>
+
+    <div id="main">
+        <section class="main">
+            <div th:if="${param.error}" style="color: #e37682; text-align: center; margin-bottom: 1rem; font-weight: bold;">
+                Usuario o contraseña incorrectos.
+            </div>
+            <div th:if="${param.logout}" style="color: #00c2cb; text-align: center; margin-bottom: 1rem;">
+                Has cerrado sesión correctamente.
+            </div>
+
+            <form method="post" th:action="@{/login}">
+                <div class="row gtr-uniform">
+                    <div class="col-12">
+                        <input type="text" name="username" id="username" placeholder="Nombre de usuario" required />
+                    </div>
+
+                    <div class="col-12">
+                        <div style="position: relative;">
+                            <input type="password" name="password" id="password" placeholder="Contraseña" required />
+                            <span id="btnToggle" class="icon solid fa-eye"
+                                  style="position: absolute; right: 15px; top: 15px; cursor: pointer; color: rgba(255,255,255,0.5);"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <ul class="actions special">
+                            <li><input type="submit" value="Entrar" class="primary" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <footer style="text-align: center; margin-top: 2rem;">
+                <p>
+                    <a th:href="@{/auth/forgot-password}">¿Olvidaste tu contraseña?</a><br />
+                    ¿No tienes cuenta? <a th:href="@{/auth/register}">Regístrate aquí</a>
+                </p>
+            </footer>
+        </section>
+    </div>
+</div>
+
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/assets/js/registro.js}"></script>
+<script>
+    const passInput = document.querySelector('#password');
+    const btn = document.querySelector('#btnToggle');
+    btn.addEventListener('click', () => {
+        const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passInput.setAttribute('type', type);
+        btn.classList.toggle('fa-eye');
+        btn.classList.toggle('fa-eye-slash');
+    });
+</script>
+</body>
+</html>
